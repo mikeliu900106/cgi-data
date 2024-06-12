@@ -1,0 +1,33 @@
+{
+	"p_type_2_info":
+	[
+		{
+			"category": "forum",
+			"name": "討論區"
+		},
+		{
+			"category": "social",
+			"name": "社群網站"
+		},
+		{
+			"category": "comment",
+			"name": "評論"
+		},
+		{
+			"category": "qa",
+			"name": "問答網站"
+		},
+		{
+			"category": "blog",
+			"name": "部落格"
+		},
+		{
+			"category": "news",
+			"name": "新聞"
+		},
+		{
+			"category": "video",
+			"name": "影音"
+		}
+	]
+}

@@ -1,0 +1,335 @@
+	{
+	"tag_info":
+	[
+		{
+			"tag_id": 1,
+			"tag_name": "品牌",
+			"type": 1
+		},
+		{
+			"tag_id": 2,
+			"tag_name": "人物",
+			"type": 1
+		},
+		{
+			"tag_id": 3,
+			"tag_name": "地點",
+			"type": 1
+		},
+		{
+			"tag_id": 4,
+			"tag_name": "組織團體",
+			"type": 1
+		},
+		{
+			"tag_id": 5,
+			"tag_name": "政府",
+			"type": 1
+		},
+		{
+			"tag_id": 6,
+			"tag_name": "活動",
+			"type": 1
+		},
+		{
+			"tag_id": 7,
+			"tag_name": "媒體",
+			"type": 1
+		},
+		{
+			"tag_id": 8,
+			"tag_name": "其他",
+			"type": 1
+		},
+		{
+			"tag_id": 9,
+			"tag_name": "旅遊住宿",
+			"type": 2
+		},
+		{
+			"tag_id": 10,
+			"tag_name": "美食",
+			"type": 2
+		},
+		{
+			"tag_id": 11,
+			"tag_name": "料理烹飪",
+			"type": 2
+		},
+		{
+			"tag_id": 12,
+			"tag_name": "美妝保養",
+			"type": 2
+		},
+		{
+			"tag_id": 13,
+			"tag_name": "時尚穿搭",
+			"type": 2
+		},
+		{
+			"tag_id": 14,
+			"tag_name": "髮型設計",
+			"type": 2
+		},
+		{
+			"tag_id": 15,
+			"tag_name": "電玩遊戲",
+			"type": 2
+		},
+		{
+			"tag_id": 16,
+			"tag_name": "3C資訊",
+			"type": 2
+		},
+		{
+			"tag_id": 17,
+			"tag_name": "電器設備",
+			"type": 2
+		},
+		{
+			"tag_id": 18,
+			"tag_name": "親子互動",
+			"type": 2
+		},
+		{
+			"tag_id": 19,
+			"tag_name": "親子教育",
+			"type": 2
+		},
+		{
+			"tag_id": 20,
+			"tag_name": "媽咪寶寶",
+			"type": 2
+		},
+		{
+			"tag_id": 21,
+			"tag_name": "繪畫插圖",
+			"type": 2
+		},
+		{
+			"tag_id": 22,
+			"tag_name": "攝影平面",
+			"type": 2
+		},
+		{
+			"tag_id": 23,
+			"tag_name": "文字創作",
+			"type": 2
+		},
+		{
+			"tag_id": 24,
+			"tag_name": "空間設計",
+			"type": 2
+		},
+		{
+			"tag_id": 25,
+			"tag_name": "語言翻譯",
+			"type": 2
+		},
+		{
+			"tag_id": 26,
+			"tag_name": "金融理財",
+			"type": 2
+		},
+		{
+			"tag_id": 27,
+			"tag_name": "兩性議題",
+			"type": 2
+		},
+		{
+			"tag_id": 28,
+			"tag_name": "知識分享",
+			"type": 2
+		},
+		{
+			"tag_id": 29,
+			"tag_name": "才藝學習",
+			"type": 2
+		},
+		{
+			"tag_id": 30,
+			"tag_name": "書評/書籍介紹",
+			"type": 2
+		},
+		{
+			"tag_id": 31,
+			"tag_name": "房屋資訊",
+			"type": 2
+		},
+		{
+			"tag_id": 32,
+			"tag_name": "學校系所",
+			"type": 2
+		},
+		{
+			"tag_id": 33,
+			"tag_name": "法律知識",
+			"type": 2
+		},
+		{
+			"tag_id": 34,
+			"tag_name": "氣象地理",
+			"type": 2
+		},
+		{
+			"tag_id": 35,
+			"tag_name": "醫療健康",
+			"type": 2
+		},
+		{
+			"tag_id": 36,
+			"tag_name": "運動健身",
+			"type": 2
+		},
+		{
+			"tag_id": 37,
+			"tag_name": "汽機車",
+			"type": 2
+		},
+		{
+			"tag_id": 38,
+			"tag_name": "寵物",
+			"type": 2
+		},
+		{
+			"tag_id": 39,
+			"tag_name": "生活小物",
+			"type": 2
+		},
+		{
+			"tag_id": 40,
+			"tag_name": "植物盆栽",
+			"type": 2
+		},
+		{
+			"tag_id": 41,
+			"tag_name": "菸酒雪茄",
+			"type": 2
+		},
+		{
+			"tag_id": 42,
+			"tag_name": "玩具模型",
+			"type": 2
+		},
+		{
+			"tag_id": 43,
+			"tag_name": "趣味分享",
+			"type": 2
+		},
+		{
+			"tag_id": 44,
+			"tag_name": "動漫",
+			"type": 2
+		},
+		{
+			"tag_id": 45,
+			"tag_name": "命理宗教",
+			"type": 2
+		},
+		{
+			"tag_id": 46,
+			"tag_name": "潛水釣魚",
+			"type": 2
+		},
+		{
+			"tag_id": 47,
+			"tag_name": "軍事",
+			"type": 2
+		},
+		{
+			"tag_id": 48,
+			"tag_name": "結婚婚禮",
+			"type": 2
+		},
+		{
+			"tag_id": 49,
+			"tag_name": "自行車",
+			"type": 2
+		},
+		{
+			"tag_id": 50,
+			"tag_name": "露營登山",
+			"type": 2
+		},
+		{
+			"tag_id": 51,
+			"tag_name": "居家家具",
+			"type": 2
+		},
+		{
+			"tag_id": 52,
+			"tag_name": "交通工具",
+			"type": 2
+		},
+		{
+			"tag_id": 53,
+			"tag_name": "政治社會",
+			"type": 2
+		},
+		{
+			"tag_id": 54,
+			"tag_name": "影劇藝文",
+			"type": 2
+		},
+		{
+			"tag_id": 55,
+			"tag_name": "音樂評論",
+			"type": 2
+		},
+		{
+			"tag_id": 56,
+			"tag_name": "消費",
+			"type": 2
+		},
+		{
+			"tag_id": 57,
+			"tag_name": "新聞",
+			"type": 2
+		},
+		{
+			"tag_id": 58,
+			"tag_name": "社會公益",
+			"type": 2
+		},
+		{
+			"tag_id": 59,
+			"tag_name": "影音創作",
+			"type": 2
+		},
+		{
+			"tag_id": 60,
+			"tag_name": "音樂創作",
+			"type": 2
+		},
+		{
+			"tag_id": 61,
+			"tag_name": "舞蹈",
+			"type": 2
+		},
+		{
+			"tag_id": 62,
+			"tag_name": "樂器演奏",
+			"type": 2
+		},
+		{
+			"tag_id": 63,
+			"tag_name": "生活分享",
+			"type": 2
+		},
+		{
+			"tag_id": 64,
+			"tag_name": "魔術師",
+			"type": 2
+		},
+		{
+			"tag_id": 65,
+			"tag_name": "工作職業",
+			"type": 2
+		},
+		{
+			"tag_id": 66,
+			"tag_name": "論壇",
+			"type": 1
+		}
+	]
+}
