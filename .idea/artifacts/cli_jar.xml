@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact name="cli:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/cli_jar</output-path>
+    <root id="root">
+      <element id="archive" name="cli.jar">
+        <element id="module-output" name="cli" />
+      </element>
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.0" />
+      <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.28" />
+      <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
+      <element id="library" level="project" name="Maven: org.json:json:20210307" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.0" />
+    </root>
+  </artifact>
+</component>
