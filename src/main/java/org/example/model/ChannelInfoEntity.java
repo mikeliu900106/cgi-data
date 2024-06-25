@@ -1,7 +1,7 @@
 package org.example.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChannelInfoEntity extends BasicEntity {
-        @JsonProperty("source_id")
-        private String sourceId;
-        @JsonProperty("source_area_id")
-        private String sourceAreaId;
-        @JsonProperty("is_used")
-        private boolean isUsed;
-        @JsonProperty("p_type_2")
-        private String pType2;
+    @SerializedName("source_id")
+    private String sourceId;
+    @SerializedName("source_area_id")
+    private String sourceAreaId;
+    @SerializedName("is_used")
+    private boolean isUsed;
+    @SerializedName("p_type_2")
+    private String pType2;
 
+    @Override
+    public Class<? extends BasicEntity> getEntityClass() {
+        return ChannelInfoEntity.class;
+    }
 }

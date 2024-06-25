@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChannelTagsEntity {
-    @JsonProperty("channel_tag_mapping")
+public class ChannelTagsEntity extends BasicEntity{
+    @SerializedName("channel_tag_mapping")
     private List<ChannelTagEntity> channelTagEntities;
+
+    @Override
+    public Class<? extends BasicEntity> getEntityClass() {
+        return ChannelTagsEntity.class;
+    }
 }

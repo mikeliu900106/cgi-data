@@ -12,10 +12,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class ChannelInfoDao implements BasicDao{
+public class ChannelInfoDao implements BasicDao {
+
     private Connection connection;
 
     public void insertAll(List<? extends BasicEntity> entities) throws SQLException {
@@ -39,7 +41,6 @@ public class ChannelInfoDao implements BasicDao{
         }
     }
 
-    // 查询所有 ChannelInfoEntity 对象
     public List<ChannelInfoEntity> findAll() throws SQLException {
         List<ChannelInfoEntity> entities = new ArrayList<>();
         String sql = "SELECT * FROM channel_info";
@@ -60,4 +61,11 @@ public class ChannelInfoDao implements BasicDao{
 
         return entities;
     }
+
+    @Override
+    public Class<? extends BasicDao> getDaoClass() {
+        return ChannelInfoDao.class;
+    }
+
+
 }

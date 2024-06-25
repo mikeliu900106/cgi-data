@@ -1,29 +1,29 @@
 package org.example.dao;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.model.BasicEntity;
 import org.example.model.ChannelTagEntity;
-import org.example.model.TagInfoEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class ChannelTagDao implements BasicDao{
+public class ChannelTagDao implements BasicDao {
 
     private Connection connection;
-
 
     public void insertAll(List<? extends BasicEntity> entities) throws SQLException {
         String sql = "INSERT INTO channel_tag_mapping (s_area_id, tag_id) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             for (BasicEntity entity : entities) {
-                if(entity instanceof ChannelTagEntity) {
-                    ChannelTagEntity channelTag = (ChannelTagEntity)entity;
+                if (entity instanceof ChannelTagEntity) {
+                    ChannelTagEntity channelTag = (ChannelTagEntity) entity;
                     statement.setString(1, channelTag.getSAreaId());
                     statement.setInt(2, channelTag.getTagId());
                     statement.addBatch();
@@ -53,6 +53,11 @@ public class ChannelTagDao implements BasicDao{
         }
 
         return channelTags;
+    }
+
+    @Override
+    public Class<? extends BasicDao> getDaoClass() {
+        return ChannelTagDao.class;
     }
 
 

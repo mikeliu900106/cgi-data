@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact name="cli:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/cli_jar</output-path>
+    <output-path>$PROJECT_DIR$/../cli_jar</output-path>
     <root id="root">
       <element id="archive" name="cli.jar">
         <element id="module-output" name="cli" />

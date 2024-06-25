@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TagInfoEntity extends BasicEntity{
-    @JsonProperty("tag_id")
+    @SerializedName("tag_id")
     private int tagId;
-    @JsonProperty("tag_name")
+    @SerializedName("tag_name")
     private String tagName;
-    @JsonProperty("type")
+    @SerializedName("type")
     private int type;
+
+    @Override
+    public Class<? extends BasicEntity> getEntityClass() {
+        return TagInfoEntity.class;
+    }
 }

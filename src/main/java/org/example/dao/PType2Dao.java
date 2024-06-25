@@ -9,6 +9,7 @@ import org.example.model.PType2Entity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -54,4 +55,10 @@ public class PType2Dao implements BasicDao {
 
         return pType2Entities;
     }
+
+    @Override
+    public Class<? extends BasicDao> getDaoClass() {
+        return PType2Dao.class;
+    }
+
 }
