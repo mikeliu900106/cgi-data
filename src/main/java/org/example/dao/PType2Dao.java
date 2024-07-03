@@ -1,66 +1,53 @@
 package org.example.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
+import org.example.model.ChannelInfoEntity;
 import org.example.model.PType2Entity;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class PType2Dao implements BasicDao {
+
+public class PType2Dao extends AbstractBasicDao {
+
+    private static final Logger logger = Logger.getLogger(ChannelInfo2Dao.class);
 
     private Connection connection;
 
-    @Override
-    public void insertAll(List<? extends BasicEntity> entities) throws SQLException {
-        String sql = "INSERT INTO p_type_2 (category, name) VALUES (?, ?)";
+    public PType2Dao(Connection connection) {
+        super(connection);
+    }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            for (BasicEntity entity : entities) {
-                if (entity instanceof PType2Entity) {
-                    PType2Entity pType2 = (PType2Entity) entity;
-                    statement.setString(1, pType2.getCategory());
-                    statement.setString(2, pType2.getName());
-                    statement.addBatch();
-                }else {
-                    throw new IllegalArgumentException("Unsupported entity type: " + entity.getClass());
-                }
-            }
-            statement.executeBatch();
-            System.out.println("Batch insertion completed.");
-        }
+
+    @Override
+    protected String getInsertSQL() throws ClassNotFoundException {
+        return getInsertAllSQL(PType2Entity.class);
     }
 
     @Override
-    public List<PType2Entity> findAll() throws SQLException {
-        List<PType2Entity> pType2Entities = new ArrayList<>();
-
-        String sql = "SELECT category, name FROM p_type_2";
-
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            while (resultSet.next()) {
-                String category = resultSet.getString("category");
-                String name = resultSet.getString("name");
-
-                PType2Entity pType2Entity = new PType2Entity(category, name);
-                pType2Entities.add(pType2Entity);
-            }
-        }
-
-        return pType2Entities;
+    protected String getSelectSQL() throws ClassNotFoundException {
+        return getSelectAllSQL(PType2Entity.class);
     }
 
     @Override
-    public Class<? extends BasicDao> getDaoClass() {
-        return PType2Dao.class;
+    protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
+        List<Class<?>> columnType = getColumnType(PType2Entity.class);
+        Field[] fields = getClassField(PType2Entity.class);
+        logger.debug("columnType size:" + columnType);
+        loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
     }
 
+    @Override
+    protected BasicEntity createEntityFromResultSet(ResultSet resultSet) throws SQLException, ClassNotFoundException {
+        List<String> columnNames = getColumnName(PType2Entity.class);
+        Field[] fields = getClassField(PType2Entity.class);
+        PType2Entity entity = new PType2Entity();
+        entity = (PType2Entity) BasicEntity(columnNames,fields, resultSet, entity);
+        logger.debug("開始把資料配置");
+        return entity;
+    }
 }

@@ -2,10 +2,14 @@ package org.example.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
+import org.example.model.ChannelInfoEntity;
 import org.example.model.TagInfoEntity;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,52 +19,42 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class TagInfoDao implements BasicDao {
+
+public class TagInfoDao extends AbstractBasicDao {
+
+    private static final Logger logger = Logger.getLogger(TagInfoDao.class);
 
     private Connection connection;
 
-    public void insertAll(List<? extends BasicEntity> entities) throws SQLException {
-        String query = "INSERT INTO tag_info (tag_name, type) VALUES (?, ?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            for (BasicEntity entity : entities) {
-                if (entity instanceof TagInfoEntity) {
-                    TagInfoEntity tagInfo = (TagInfoEntity) entity;
-                    stmt.setString(1, tagInfo.getTagName());
-                    stmt.setInt(2, tagInfo.getType());
-                    stmt.addBatch();
-                }else {
-                    throw new IllegalArgumentException("Unsupported entity type: " + entity.getClass());
-                }
-
-            }
-            stmt.executeBatch();
-        }
-    }
-
-
-    public List<TagInfoEntity> findAll() throws SQLException {
-        List<TagInfoEntity> tagInfos = new ArrayList<>();
-        String query = "SELECT tag_id, tag_name, type FROM tag_info";
-
-        try (PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                int tagId = rs.getInt("tag_id");
-                String tagName = rs.getString("tag_name");
-                int type = rs.getInt("type");
-
-                TagInfoEntity tagInfo = new TagInfoEntity(tagId, tagName, type);
-                tagInfos.add(tagInfo);
-            }
-        }
-        return tagInfos;
+    public TagInfoDao(Connection connection) {
+        super(connection);
     }
 
     @Override
-    public Class<? extends BasicDao> getDaoClass() {
-        return TagInfoDao.class;
+    protected String getInsertSQL() throws ClassNotFoundException {
+        return getInsertAllSQL(TagInfoEntity.class);
     }
 
+    @Override
+    protected String getSelectSQL() throws ClassNotFoundException {
+        return getSelectAllSQL(TagInfoEntity.class);
+    }
+
+    @Override
+    protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
+        List<Class<?>> columnType = getColumnType(TagInfoEntity.class);
+        Field[] fields = getClassField(TagInfoEntity.class);
+        logger.debug("columnType size:" + columnType);
+        loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
+    }
+
+    @Override
+    protected BasicEntity createEntityFromResultSet(ResultSet resultSet) throws SQLException, ClassNotFoundException {
+        List<String> columnNames = getColumnName(TagInfoEntity.class);
+        Field[] fields = getClassField(TagInfoEntity.class);
+        TagInfoEntity entity = new TagInfoEntity();
+        entity = (TagInfoEntity) BasicEntity(columnNames,fields, resultSet, entity);
+        logger.debug("開始把資料配置");
+        return entity;
+    }
 }

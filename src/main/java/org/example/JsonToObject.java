@@ -28,7 +28,7 @@ public class JsonToObject {
     public static void main(String[] args) {
         try {
             handleFilePathConfiguration(props);
-            dataTransfer( "--import", "channel_info.json");
+            dataTransfer( "--import", "tag_info.json");
 //            System.out.println(dataTransfer(args[0], args[1]));
         } catch (IOException | SQLException e) {
             e.printStackTrace();
@@ -92,16 +92,31 @@ public class JsonToObject {
     //TypeToken<List<? extends BasicEntity>>()不能用藥重點處理
     private static void inputData(String fileName, File file) throws SQLException, IOException, ClassNotFoundException {
         Gson gson = new Gson();
+        Type type =null;
+
         BasicDto basicDto = handleFileName(fileName);
         if (basicDto == null) {
             throw new IOException("沒有該檔案名稱,後面記得變成");
         }
         BasicDao basicDao = basicDto.getBasicDao();
-        Type type = new TypeToken<List<? extends BasicEntity>>() {}.getType();
+        if(basicDto.getBasicEntity() instanceof  ChannelInfoEntity){
+             type = new TypeToken<List<ChannelInfoEntity>>() {}.getType();
+        } else if (basicDto.getBasicEntity() instanceof  TagInfoEntity) {
+             type = new TypeToken<List<TagInfoEntity>>() {}.getType();
+        } else if (basicDto.getBasicEntity() instanceof  ChannelTagEntity) {
+             type = new TypeToken<List<ChannelTagEntity>>() {}.getType();
+        } else if (basicDto.getBasicEntity() instanceof  PType2Entity) {
+             type = new TypeToken<List<PType2Entity>>() {}.getType();
+        }else {
+            throw new ClassNotFoundException("沒有這個行為");
+        }
+//        Type type = new TypeToken<List<? extends BasicEntity>>() {}.getType();
         String json = new String(Files.readAllBytes(file.toPath()));
         List<? extends BasicEntity> entities = gson.fromJson(json, type);
         logger.debug("讀取: " + entities);
         basicDao.insertAll(entities);
+
+
 //        BasicEntity basicsEntity = basicDto.getBasicEntity();
 //        basicsEntity.getEntityClass() c = basicsEntity
 //        BasicDao basicDao = basicDto.getBasicDao();
@@ -147,7 +162,7 @@ public class JsonToObject {
     private static BasicDto handleFileName(String fileName) throws SQLException {
         if (fileName.contains("channel_tag_mapping")) {
             return BasicDto.builder()
-                    .basicEntity(new ChannelTagsEntity())
+                    .basicEntity(new ChannelTagEntity())
                     .basicDao(new ChannelTagDao(DatabaseUtil.getConnection()))
                     .build();
         }

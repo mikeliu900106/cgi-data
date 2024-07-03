@@ -9,6 +9,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class AbstractBasicDao implements BasicDao {
@@ -73,7 +74,6 @@ public abstract class AbstractBasicDao implements BasicDao {
                 }
             }
         }
-//        System.out.println("資料庫欄位:" + columns);
         return columns;
     }
 
@@ -119,19 +119,20 @@ public abstract class AbstractBasicDao implements BasicDao {
         StringBuilder stringBuilder = new StringBuilder("Insert into ")
                 .append(dataBaseName)
                 .append(" (");
-        for (int i = 0; i <= column.size(); i++) {
+        for (int i = 0; i < column.size(); i++) {
             stringBuilder.append(column.get(i));
             if (i != column.size() - 1) {
                 stringBuilder.append(",");
             }
         }
         stringBuilder.append(" ) VAlUES (");
-        for (int i = 0; i <= column.size(); i++) {
+        for (int i = 0; i < column.size(); i++) {
             stringBuilder.append("?");
             if (i != column.size() - 1) {
                 stringBuilder.append(",");
             }
         }
+        stringBuilder.append(")");
         logger.debug("INSERT 語法:" + stringBuilder);
         return stringBuilder.toString();
     }
@@ -146,6 +147,61 @@ public abstract class AbstractBasicDao implements BasicDao {
                 .append(dataBaseName);
         logger.debug("slelect 語法:" + stringBuilder);
         return stringBuilder.toString();
+    }
+    protected void loopColumnTypeSetValue(PreparedStatement statement, BasicEntity entity,List<Class<?>> columnType, Field[] fields ) throws SQLException, IllegalAccessException, ClassNotFoundException {
+        for (int i = 0; i < columnType.size() ; i++) {
+            int parameterIndex = i + 1;
+            fields[i].setAccessible(true);
+            Object value = fields[i].get(entity);
+            if (columnType.get(i).equals(String.class)) {
+                statement.setString(parameterIndex, (String) value);
+            } else if (columnType.get(i).equals(Integer.class)) {
+                statement.setInt(parameterIndex, (Integer) value);
+            } else if (columnType.get(i).equals(boolean.class)) {
+                statement.setBoolean(parameterIndex, (Boolean) value);
+            } else if (columnType.get(i).equals(Short.class)) {
+                statement.setShort(parameterIndex, (Short) value);
+            }else if (columnType.get(i).equals(int.class)) {
+                statement.setInt(parameterIndex, (int) value);
+            }
+            else {
+                throw new ClassNotFoundException("沒有這涮");
+            }
+            System.out.println(parameterIndex);
+        }
+    }
+    protected BasicEntity BasicEntity(List<String> columnNames,Field[] fields,ResultSet resultSet,BasicEntity entity){
+        for (int i = 0; i < columnNames.size(); i++) {
+            // 變數名稱
+            String fieldName = fields[i].getName();
+            // 判斷自斷是否在類別裡面
+            try {
+                // 獲取自斷類型
+                Class<?> fieldType = fields[i].getType();
+                fields[i].setAccessible(true);
+                logger.debug("開始把資料配置" + fieldName);
+
+                if (fieldType == int.class || fieldType == Integer.class) {
+                    fields[i].set(entity, resultSet.getInt(columnNames.get(i)));
+                } else if (fieldType == long.class || fieldType == Long.class) {
+                    fields[i].set(entity, resultSet.getLong(columnNames.get(i)));
+                } else if (fieldType == float.class || fieldType == Float.class) {
+                    fields[i].set(entity, resultSet.getFloat(columnNames.get(i)));
+                } else if (fieldType == double.class || fieldType == Double.class) {
+                    fields[i].set(entity, resultSet.getDouble(columnNames.get(i)));
+                } else if (fieldType == boolean.class || fieldType == Boolean.class) {
+                    fields[i].set(entity, resultSet.getBoolean(columnNames.get(i)));
+                } else if (fieldType == String.class) {
+                    fields[i].set(entity, resultSet.getString(columnNames.get(i)));
+                } else if (fieldType == Date.class) {
+                    fields[i].set(entity, resultSet.getDate(columnNames.get(i)));
+                }
+            } catch (SQLException | IllegalAccessException e) {
+                throw new RuntimeException("Failed to set field value", e);
+            }
+
+        }
+        return entity;
     }
 
 }
