@@ -28,6 +28,8 @@ public class PType2Dao implements BasicDao {
                     statement.setString(1, pType2.getCategory());
                     statement.setString(2, pType2.getName());
                     statement.addBatch();
+                }else {
+                    throw new IllegalArgumentException("Unsupported entity type: " + entity.getClass());
                 }
             }
             statement.executeBatch();

@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
-
+import com.google.gson.reflect.TypeToken;
 
 public class JsonToObject {
     private static final Logger logger = Logger.getLogger(JsonToObject.class);
@@ -26,8 +28,8 @@ public class JsonToObject {
     public static void main(String[] args) {
         try {
             handleFilePathConfiguration(props);
-//            logger.debug(dataTransfer( "--export", "p_type_2_list.txt"));
-            System.out.println(dataTransfer(args[0], args[1]));
+            dataTransfer( "--import", "channel_info.json");
+//            System.out.println(dataTransfer(args[0], args[1]));
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -56,7 +58,6 @@ public class JsonToObject {
         StringBuilder filePath = new StringBuilder(EXPORT_PATH)
                 .append("\\")
                 .append(fileName);
-        System.out.println(filePath);
 
         FileWriter fileWriter = new FileWriter(filePath.toString());
         fileWriter.write(jsonData);
@@ -89,14 +90,18 @@ public class JsonToObject {
     }
 
     //TypeToken<List<? extends BasicEntity>>()不能用藥重點處理
-    private static void inputData(String fileName, File file) throws SQLException, IOException {
-//        Gson gson = new Gson();
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        BasicDto basicDto = handleFileName(fileName);
-//        if (basicDto == null) {
-//            throw new IOException("沒有該檔案名稱,後面記得變成.txt檔案");
-//        }
+    private static void inputData(String fileName, File file) throws SQLException, IOException, ClassNotFoundException {
+        Gson gson = new Gson();
+        BasicDto basicDto = handleFileName(fileName);
+        if (basicDto == null) {
+            throw new IOException("沒有該檔案名稱,後面記得變成");
+        }
+        BasicDao basicDao = basicDto.getBasicDao();
+        Type type = new TypeToken<List<? extends BasicEntity>>() {}.getType();
+        String json = new String(Files.readAllBytes(file.toPath()));
+        List<? extends BasicEntity> entities = gson.fromJson(json, type);
+        logger.debug("讀取: " + entities);
+        basicDao.insertAll(entities);
 //        BasicEntity basicsEntity = basicDto.getBasicEntity();
 //        basicsEntity.getEntityClass() c = basicsEntity
 //        BasicDao basicDao = basicDto.getBasicDao();
@@ -134,9 +139,8 @@ public class JsonToObject {
             throw new IOException("沒有該檔案名稱,後面記得變成.txt檔案");
         }
         BasicDao basicDao = basicDto.getBasicDao();
-        List<? extends BasicEntity> basicEntities = basicDao.findAll();
-        String jsonString = gson.toJson(basicEntities);
-        logger.info("寫入的資料" + jsonString);
+        String jsonString = gson.toJson(basicDao.findAll());
+//        logger.info("寫入的資料" + jsonString);
         return jsonString;
     }
 
@@ -146,22 +150,26 @@ public class JsonToObject {
                     .basicEntity(new ChannelTagsEntity())
                     .basicDao(new ChannelTagDao(DatabaseUtil.getConnection()))
                     .build();
-        } else if (fileName.contains("channel_info")) {
+        }
+        if (fileName.contains("channel_info")) {
             return BasicDto.builder()
                     .basicEntity(new ChannelInfoEntity())
-                    .basicDao(new ChannelInfoDao(DatabaseUtil.getConnection()))
+                    .basicDao(new ChannelInfo2Dao(DatabaseUtil.getConnection()))
                     .build();
-        } else if (fileName.contains("p_type_2_list")) {
+        }
+        else if (fileName.contains("p_type_2_list")) {
             return BasicDto.builder()
                     .basicEntity(new PType2Entity())
                     .basicDao(new PType2Dao(DatabaseUtil.getConnection()))
                     .build();
-        } else if (fileName.contains("tag_info")) {
+        }
+        else if (fileName.contains("tag_info")) {
             return BasicDto.builder()
                     .basicEntity(new TagInfoEntity())
                     .basicDao(new TagInfoDao(DatabaseUtil.getConnection()))
                     .build();
-        } else {
+        }
+        else {
             return null;
         }
     }

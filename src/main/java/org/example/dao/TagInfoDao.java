@@ -30,6 +30,8 @@ public class TagInfoDao implements BasicDao {
                     stmt.setString(1, tagInfo.getTagName());
                     stmt.setInt(2, tagInfo.getType());
                     stmt.addBatch();
+                }else {
+                    throw new IllegalArgumentException("Unsupported entity type: " + entity.getClass());
                 }
 
             }
