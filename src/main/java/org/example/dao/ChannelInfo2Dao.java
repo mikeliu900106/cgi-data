@@ -4,12 +4,12 @@ import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
 import org.example.model.ChannelInfoEntity;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 public class ChannelInfo2Dao extends AbstractBasicDao {
@@ -18,7 +18,7 @@ public class ChannelInfo2Dao extends AbstractBasicDao {
         super(connection);
     }
     @Override
-    protected String getInsertSQL() throws ClassNotFoundException {
+    protected String getInsertSQL() throws ClassNotFoundException, UnsupportedEncodingException {
         return getInsertAllSQL(ChannelInfoEntity.class);
     }
 
@@ -29,7 +29,7 @@ public class ChannelInfo2Dao extends AbstractBasicDao {
 
     @Override
     protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
-        List<Class<?>> columnType = getColumnType(ChannelInfoEntity.class);
+        List<Class<?>> columnType = getFiledType(ChannelInfoEntity.class);
         Field[] fields = getClassField(ChannelInfoEntity.class);
         logger.debug("columnType size:" + columnType);
         loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
@@ -40,8 +40,8 @@ public class ChannelInfo2Dao extends AbstractBasicDao {
         List<String> columnNames = getColumnName(ChannelInfoEntity.class);
         Field[] fields = getClassField(ChannelInfoEntity.class);
         ChannelInfoEntity entity = new ChannelInfoEntity();
-        entity = (ChannelInfoEntity) BasicEntity(columnNames,fields, resultSet, entity);
-        logger.debug("開始把資料配置");
+        entity = (ChannelInfoEntity) loopColumnGetValue(columnNames,fields, resultSet, entity);
+//        logger.debug("開始把資料配置");
         return entity;
     }
 

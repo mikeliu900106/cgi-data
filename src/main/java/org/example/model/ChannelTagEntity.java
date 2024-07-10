@@ -1,6 +1,5 @@
 package org.example.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import org.example.annotation.DatabaseColumn;
 @NoArgsConstructor
 @Builder
 @DataBaseName(databaseName = "channel_tag_mapping")
-public class ChannelTagEntity extends BasicEntity{
+public class ChannelTagEntity extends BasicEntity {
     @DatabaseColumn(columnName = "s_area_id")
     @SerializedName("s_area_id")
     private String sAreaId;

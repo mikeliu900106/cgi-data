@@ -1,14 +1,15 @@
 package org.example.dao;
 
-import lombok.*;
 import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
-import org.example.model.ChannelInfoEntity;
 import org.example.model.PType2Entity;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class PType2Dao extends AbstractBasicDao {
 
 
     @Override
-    protected String getInsertSQL() throws ClassNotFoundException {
+    protected String getInsertSQL() throws ClassNotFoundException, UnsupportedEncodingException {
         return getInsertAllSQL(PType2Entity.class);
     }
 
@@ -35,10 +36,10 @@ public class PType2Dao extends AbstractBasicDao {
 
     @Override
     protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
-        List<Class<?>> columnType = getColumnType(PType2Entity.class);
+        List<Class<?>> columnType = getFiledType(PType2Entity.class);
         Field[] fields = getClassField(PType2Entity.class);
         logger.debug("columnType size:" + columnType);
-        loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
+        loopColumnTypeSetValue(statement, entity, columnType, fields);
     }
 
     @Override
@@ -46,8 +47,8 @@ public class PType2Dao extends AbstractBasicDao {
         List<String> columnNames = getColumnName(PType2Entity.class);
         Field[] fields = getClassField(PType2Entity.class);
         PType2Entity entity = new PType2Entity();
-        entity = (PType2Entity) BasicEntity(columnNames,fields, resultSet, entity);
-        logger.debug("開始把資料配置");
+        entity = (PType2Entity) loopColumnGetValue(columnNames, fields, resultSet, entity);
+//        logger.debug("開始把資料配置");
         return entity;
     }
 }

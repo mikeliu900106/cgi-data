@@ -1,7 +1,10 @@
 package org.example.util;
 
+import org.apache.log4j.PropertyConfigurator;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,19 +15,28 @@ public class DatabaseUtil {
     private static final Properties props = new Properties();
     private static final String URL;
     private static final String USERNAME;
-    private static final String PASSWORD ;
+    private static final String PASSWORD;
 
     static {
+            Properties props = new Properties();
+            InputStream is = DatabaseUtil.class.getClassLoader().getResourceAsStream("Log4j.properties");
         try {
-            FileInputStream fis = new FileInputStream("src\\main\\resources\\config.properties");
-            props.load(fis);
+            props.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        PropertyConfigurator.configure(props);
+        try (InputStream inputStream = DatabaseUtil.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (inputStream == null) {
+                throw new RuntimeException("config.properties not found in the classpath");
+            }
+            props.load(inputStream);
             URL = props.getProperty("db.url");
             USERNAME = props.getProperty("db.username");
             PASSWORD = props.getProperty("db.password");
-            fis.close();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("無法連接文件", e);
+            throw new RuntimeException("無法讀取配置文件", e);
         }
     }
 

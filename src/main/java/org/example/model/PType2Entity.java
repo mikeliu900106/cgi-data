@@ -13,7 +13,7 @@ import org.example.annotation.DatabaseColumn;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@DataBaseName(databaseName = "p_typ2_2")
+@DataBaseName(databaseName = "p_type_2")
 public class PType2Entity extends BasicEntity{
     @DatabaseColumn(columnName = "category")
     @SerializedName("category")

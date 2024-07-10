@@ -1,17 +1,17 @@
 package org.example.dao;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
-import org.example.model.ChannelInfoEntity;
 import org.example.model.ChannelTagEntity;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Getter
@@ -19,12 +19,13 @@ import java.util.List;
 public class ChannelTagDao extends AbstractBasicDao {
 
     private static final Logger logger = Logger.getLogger(ChannelTagDao.class);
+
     public ChannelTagDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    protected String getInsertSQL() throws ClassNotFoundException {
+    protected String getInsertSQL() throws ClassNotFoundException, UnsupportedEncodingException {
         return getInsertAllSQL(ChannelTagEntity.class);
     }
 
@@ -35,10 +36,10 @@ public class ChannelTagDao extends AbstractBasicDao {
 
     @Override
     protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
-        List<Class<?>> columnType = getColumnType(ChannelTagEntity.class);
+        List<Class<?>> columnType = getFiledType(ChannelTagEntity.class);
         Field[] fields = getClassField(ChannelTagEntity.class);
         logger.debug("columnType size:" + columnType);
-        loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
+        loopColumnTypeSetValue(statement, entity, columnType, fields);
     }
 
     @Override
@@ -46,8 +47,8 @@ public class ChannelTagDao extends AbstractBasicDao {
         List<String> columnNames = getColumnName(ChannelTagEntity.class);
         Field[] fields = getClassField(ChannelTagEntity.class);
         ChannelTagEntity entity = new ChannelTagEntity();
-        entity = (ChannelTagEntity) BasicEntity(columnNames,fields, resultSet, entity);
-        logger.debug("開始把資料配置");
+        entity = (ChannelTagEntity) loopColumnGetValue(columnNames, fields, resultSet, entity);
+//        logger.debug("開始把資料配置");
         return entity;
     }
 

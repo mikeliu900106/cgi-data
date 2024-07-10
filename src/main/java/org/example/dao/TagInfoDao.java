@@ -1,20 +1,17 @@
 package org.example.dao;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.example.model.BasicEntity;
-import org.example.model.ChannelInfoEntity;
 import org.example.model.TagInfoEntity;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,7 +28,7 @@ public class TagInfoDao extends AbstractBasicDao {
     }
 
     @Override
-    protected String getInsertSQL() throws ClassNotFoundException {
+    protected String getInsertSQL() throws ClassNotFoundException, UnsupportedEncodingException {
         return getInsertAllSQL(TagInfoEntity.class);
     }
 
@@ -42,10 +39,10 @@ public class TagInfoDao extends AbstractBasicDao {
 
     @Override
     protected void setInsertParameters(PreparedStatement statement, BasicEntity entity) throws SQLException, ClassNotFoundException, IllegalAccessException {
-        List<Class<?>> columnType = getColumnType(TagInfoEntity.class);
+        List<Class<?>> columnType = getFiledType(TagInfoEntity.class);
         Field[] fields = getClassField(TagInfoEntity.class);
         logger.debug("columnType size:" + columnType);
-        loopColumnTypeSetValue(statement,entity,columnType, fields ) ;
+        loopColumnTypeSetValue(statement, entity, columnType, fields);
     }
 
     @Override
@@ -53,8 +50,8 @@ public class TagInfoDao extends AbstractBasicDao {
         List<String> columnNames = getColumnName(TagInfoEntity.class);
         Field[] fields = getClassField(TagInfoEntity.class);
         TagInfoEntity entity = new TagInfoEntity();
-        entity = (TagInfoEntity) BasicEntity(columnNames,fields, resultSet, entity);
-        logger.debug("開始把資料配置");
+        entity = (TagInfoEntity) loopColumnGetValue(columnNames, fields, resultSet, entity);
+//        logger.debug("開始把資料配置");
         return entity;
     }
 }
